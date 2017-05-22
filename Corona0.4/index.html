@@ -14,10 +14,13 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="style.css"/> 
 		
+		<meta http-equiv="Refresh" content="300">
+		
 		<!--<script src="path/to/jquery.easy-autocomplete.min.js"></script> 
 		<link rel="stylesheet" href="path/to/easy-autocomplete.min.css">
 		<link rel="stylesheet" href="path/to/easy-autocomplete.themes.min.css">-->
-		
+		<!--GET /voip-*/_search-->
+		<!--$ curl -X GET "192.168.1.14:9200/voip-*/_search" -d@query2-->
 
 	</head>
 	<body>
@@ -28,6 +31,8 @@
 		<script>
 		document.getElementById("demo").innerHTML = Date();
 		</script>
+		
+		<!--<input type="text" name="Ressources" id="autocomplete"/>-->
 	
 		<div class="legender1"><div class="texte">Ressource_1</div></div>
 		<div class="legender2"><div class="texte">Ressource_2</div></div>
