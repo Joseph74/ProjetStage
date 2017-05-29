@@ -24,10 +24,6 @@ app.get('/', function(req, res) {
 	res.json({ message: 'Ca marche.' });	
 });
 
-/*app.get('/realData', function (req, res){
-	
-});*/
-
 /*192.168.1.14:5601*/
  
 app.get('/getData', function (req, res) {

@@ -3,18 +3,18 @@ function RadarChart(id, data, options) {
 	var opt = {
 	 labelPlacement: 1.20, 			//Placement des axis (12 pm..., etc.)
 	 labelWidth: 80, 			//Taille de la largeur des label du texte des axis (12 pm..., etc.)
-	 areaOpacity: 0.25, 			//OpacitÃ© de l'aire
+	 areaOpacity: 0.25, 			//Opacité de l'aire
 	 dotSize: 3.5, 				//La taille des petits points
-	 dotOpacity: 0.1, 			//OpacitÃ© des petits points
+	 dotOpacity: 0.1, 			//Opacité des petits points
 	 strokeWidth: 1.5, 			//Largeur du contour de la forme
 	};
 		
-	//RÃ©cupÃ¨re les valeurs stockÃ©es dans values
-	// d correspond Ã  une ligne du tableau de donnÃ©es (en-tÃªte des colonnes)
-	// d.values rÃ©cupÃ¨re donc les donnÃ©es qui ont pour en-tÃªte values
+	//Récupère les valeurs stockées dans values
+	// d correspond à une ligne du tableau de données (en-tête des colonnes)
+	// d.values récupère donc les données qui ont pour en-tête values
 	data = data.map(function(d) { return d.values })
 
-	//La variable maxValue prend la valeur maximal qu'il y a dans les donnÃ©es
+	//La variable maxValue prend la valeur maximal qu'il y a dans les données
 	var maxValue = Math.max(d3.max(data, function(i){
 		return d3.max(i.map(
 			function(o){ return o.value; }
@@ -26,7 +26,7 @@ function RadarChart(id, data, options) {
 		Format = d3.format(''),			 	//Le format (exemple : pourcentage, etc...)
 		angleSlice = Math.PI * 2 / allAxis.length;			//Les angles de chaque ligne
 	
-	//Echelle pour le rayon, permet de mettre le bon intervalle de donnÃ©es (de 0 Ã  la valeur maximale)
+	//Echelle pour le rayon, permet de mettre le bon intervalle de données (de 0 à la valeur maximale)
 	var rScale = d3.scale.linear()
 		.range([0, radius])
 		.domain([0, maxValue]);
@@ -34,12 +34,12 @@ function RadarChart(id, data, options) {
 	//Remplace le radar par un nouveau si on filtre la vue
 	d3.select(id).select("svg").remove();
 	
-	//CrÃ©Ã© le svg (svg = format de dessin vectoriel)
+	//Créé le svg (svg = format de dessin vectoriel)
 	var svg = d3.select(id).append("svg")
 			.attr("width",  radarChartOptions.w + radarChartOptions.margin.left + radarChartOptions.margin.right)
 			.attr("height", radarChartOptions.h + radarChartOptions.margin.top + radarChartOptions.margin.bottom)
 			.attr("class", "radar"+id);
-	//Ajoute un Ã©lÃ©ment g (un Ã©lÃ©ment g permet de regrouper plusieurs Ã©lÃ©ments ensemble, c'est une sorte de groupe)		
+	//Ajoute un élément g (un élément g permet de regrouper plusieurs éléments ensemble, c'est une sorte de groupe)		
 	var g = svg.append("g")
 			.attr("transform", "translate(" + (radarChartOptions.w/2 + radarChartOptions.margin.left) + "," + (radarChartOptions.h/2 + radarChartOptions.margin.top) + ")");
 			
@@ -68,7 +68,7 @@ function RadarChart(id, data, options) {
 		.style("stroke-dasharray", ("1, 3"))
 		.style("filter" , "url(#glow)");
 
-	//L'Ã©chelle
+	//L'échelle
 	axisGrid.selectAll(".axisLabel")
 	   .data(d3.range(1,(radarChartOptions.levels+1)).reverse())
 	   .enter().append("text")
@@ -81,7 +81,7 @@ function RadarChart(id, data, options) {
 	   .text(function(d,i) { return Format(maxValue * d/radarChartOptions.levels); });
 
 	
-	//CrÃ©Ã© les lignes correspondants aux angles
+	//Créé les lignes correspondants aux angles
 	var axis = axisGrid.selectAll(".axis")
 		.data(allAxis)
 		.enter()
@@ -119,13 +119,13 @@ function RadarChart(id, data, options) {
 		radarLine.interpolate("cardinal-closed");
 	}
 				
-	//CrÃ©Ã© une enveloppe pour les points 	
+	//Créé une enveloppe pour les points 	
 	var blobWrapper = g.selectAll(".radarWrapper")
 		.data(data)
 		.enter().append("g")
 		.attr("class", "radarWrapper");
 			
-	//OpacitÃ© de l'aire, couleur...	
+	//Opacité de l'aire, couleur...	
 	blobWrapper
 		.append("path")
 		.attr("class", "radarArea")
@@ -133,23 +133,23 @@ function RadarChart(id, data, options) {
 		.style("fill", function(d,i) { return radarChartOptions.color(i); })
 		.style("fill-opacity", opt.areaOpacity)
 		.on('mouseover', function (d,i){
-			//Change l'opacitÃ© des autres formes quand on passe sur une des formes
+			//Change l'opacité des autres formes quand on passe sur une des formes
 			d3.selectAll(".radarArea")
 				.transition().duration(200)
 				.style("fill-opacity", 0.1);
-			//Change l'opacitÃ© de la forme survolÃ©e
+			//Change l'opacité de la forme survolée
 			d3.select(this)
 				.transition().duration(200)
 				.style("fill-opacity", 0.8);				
 		})
 		.on('mouseout', function(){
-			//Remet les opacitÃ©s comme avant
+			//Remet les opacités comme avant
 			d3.selectAll(".radarArea")
 				.transition().duration(200)
 				.style("fill-opacity", opt.areaOpacity);
 		});
 		
-	//CrÃ©Ã© les contours
+	//Créé les contours
 	blobWrapper.append("path")
 		.attr("class", "radarStroke")
 		.attr("d", function(d,i) { return radarLine(d); })
@@ -270,11 +270,9 @@ var radarChartOptions = {
 
 
 /*var nb;
-
 $('#test').on('click', function() {
     nb = 1;
 });
-
 if (nb == 1) {
 	d3.json("http://localhost:3000/getData1", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
@@ -284,18 +282,14 @@ if (nb == 1) {
 
 /*var options = {
 	url: "http://localhost:3000/getData",
-
 	getValue: "value",
-
 	list: {
 		match: {
 			enabled: true
 		}
 	}
 };
-
 $("#provider-json").easyAutocomplete(options);
-
 getValue: function(element) {
 	return element.value;
 }*/
@@ -321,7 +315,58 @@ getValue: function(element) {
     });
 });*/
 
-//d3.json() = MÃ©thode permettant de rÃ©cupÃ©rer des donnÃ©es au format json.
+var requete = {
+    "timeout": "1s",
+    "size": 0,
+    "query": {
+        "bool": {
+            "must": [
+            {"range": {
+                "@timestamp": {
+                    "gte": "now-7d/d",
+                    "lte": "now-7d/d"
+                }
+            }},
+            {"term": {
+                "international": {
+                    "value": "true"
+                }
+             }}
+            ]
+        }
+    }
+    , "aggs": {
+        "country": {
+            "terms": {
+                "field": "callee_country",
+                "size": 5
+            },
+            "aggs": {
+                "voip_per_hour": {
+                    "date_histogram": {
+                        "field": "@timestamp",
+                        "interval": "hour"
+                    }
+                }
+            }
+        }
+    }
+};
+
+/*$.ajaxSetup({
+    scriptCharset: "utf-8",
+    contentType: "application/json; charset=utf-8",
+	cache: true
+});*/
+ 
+$.getJSON("http://192.168.1.14:9200/voip-*/_search", requete, function (retour) {
+		cache: true;
+		console.log(retour);
+	}
+);
+
+
+//d3.json() = Méthode permettant de récupérer des données au format json.
 d3.json("http://localhost:3000/getData", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 });
@@ -339,51 +384,41 @@ function afficheRessource2() {
 }
 
 /*Pour plus tard le filtrage de la vue avec les 10 ressources :
-
 function afficheRessource3() {
 	d3.json("http://localhost:3000/getData3", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
-
 function afficheRessource4() {
 	d3.json("http://localhost:3000/getData4", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
-
 function afficheRessource5() {
 	d3.json("http://localhost:3000/getData5", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
 function afficheRessource6() {
 	d3.json("http://localhost:3000/getData6", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
 function afficheRessource7() {
 	d3.json("http://localhost:3000/getData7", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
 function afficheRessource8() {
 	d3.json("http://localhost:3000/getData8", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
 function afficheRessource9() {
 	d3.json("http://localhost:3000/getData9", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
 	});
 }
-
 function afficheRessource10() {
 	d3.json("http://localhost:3000/getData10", function(error, data){
 	RadarChart(".radarChart", data, radarChartOptions);
@@ -1110,7 +1145,6 @@ $(document).ready(function() {
 /*var div10 = $("<div/>");
 div10.attr("class", "lolez");
 $("body").append(div10);
-
 $.getJSON("http://localhost:3000/getData", function(data_json) {
 	$.each(data_json, function(k,v){
 		div10.append(v.key);
